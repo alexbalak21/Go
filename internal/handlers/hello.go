@@ -1,9 +1,10 @@
 package handlers
 
 import (
-    "net/http"
+	"fmt"
+	"net/http"
 )
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Hello world"))
+	fmt.Fprintf(w, "Hello, World!")
 }
