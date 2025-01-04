@@ -15,7 +15,9 @@ func loggingMiddleware(next http.Handler) http.Handler {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.HelloHandler)
+	mux.HandleFunc("/todos", handlers.ListTodosHandler)
+	mux.HandleFunc("/todos/add", handlers.AddTodoHandler)
+	mux.HandleFunc("/todos/delete", handlers.DeleteTodoHandler)
 
 	loggedMux := loggingMiddleware(mux)
 
