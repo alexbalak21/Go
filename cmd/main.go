@@ -4,6 +4,7 @@ import (
 	"go-api/internal/handlers"
 	"log"
 	"net/http"
+	"github.com/gorilla/mux"
 )
 
 func loggingMiddleware(next http.Handler) http.Handler {
@@ -14,13 +15,13 @@ func loggingMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/todos", handlers.ListTodosHandler)
-	mux.HandleFunc("/todos/add", handlers.AddTodoHandler)
-	mux.HandleFunc("/todos/delete", handlers.DeleteTodoHandler)
+	r := mux.NewRouter()
+	r.HandleFunc("/todos", handlers.GetResponseHandler).Methods("GET")
+	r.HandleFunc("/todos", handlers.PostResponseHandler).Methods("POST")
+	r.HandleFunc("/todos", handlers.DeleteResponseHandler).Methods("DELETE")
 
-	loggedMux := loggingMiddleware(mux)
+	loggedRouter := loggingMiddleware(r)
 
 	log.Println("Starting server on http://localhost:8080")
-	http.ListenAndServe(":8080", loggedMux)
+	http.ListenAndServe(":8080", loggedRouter)
 }
